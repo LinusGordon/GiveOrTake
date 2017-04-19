@@ -61,12 +61,12 @@ app.post('/webhook/', function (req, res) {
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 
 	    	// User has typed 'ask' or some variation of that
-	    	if(found && text.contains("s") && text.contains("k")){
+	    	if(found && text.includes("s") && text.includes("k")){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
 	    	} 
 	    	// User has typed "answer" or some variation of that
-	    	else if(found && text.contains("s") && text.contains("w") && text.contains("r")) {
+	    	else if(found && text.includes("s") && text.includes("w") && text.includes("r")) {
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No question right now. Sorry!");
