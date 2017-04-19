@@ -69,7 +69,7 @@ app.post('/webhook/', function (req, res) {
 	    	else if(found && text.includes("s") && text.includes("w") && text.includes("r")) {
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
-	    			sendTextMessage(sender, "No question right now. Sorry!");
+	    			sendTextMessage(sender, "No questions right now. Sorry!");
 	    		} else { // If there is a question 
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
@@ -104,6 +104,7 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
+	    		console.log("In asking");
 	    		var cur_date = new Date();
 	    		if(original_message.slice(-1) != '?') {
 	    			original_message = original_message + "?"; 
