@@ -49,6 +49,7 @@ app.post('/webhook/', function (req, res) {
 	    	sendTextMessage(sender, "Welcome! I will help you ask and answer questions with anyone around the world. How does that sound? :)");
 	    }
 	    if(event.message && event.message.text) {
+	    	
 	    	// Find the current user
 	    	for(current_user = 0; current_user < users.length; current_user++) {
 			    if(users[current_user].person == sender) {
@@ -66,65 +67,16 @@ app.post('/webhook/', function (req, res) {
 	    	
 	    	// User has typed "answer" or some variation of that
 	    	if(found && text.includes("answer") && users[current_user].prompted == true) {
-	    		users[current_user].prompted = false;
-	    		// If there are no questions waiting to be answered
-	    		if(!questions[0]) {
-	    			sendTextMessage(sender, "No questions right now. Sorry!");
-	    			promptUser(sender, users, current_user);
-	    		} else { // If there is a question 
-	    			var index = 0;
-	    			while(questions[index].asker == sender) {
-	    				index++;
-	    			}
-	    			if(questions[index] == null) {
-	    				sendTextMessage(sender, "No questions right now. Sorry!");
-	    				promptUser(sender, users, current_user);
-	    			} else {
-		    			var question = questions[index].question;
-		    			users[current_user].answering = true;
-		    			questions[index].answerer = sender;
-		    			sleep(1000);
-		    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
-		    		}
-		    	}
+	    		giveUserQuestion(sender, users, current_user, questions);
 	    	} 
 	    	// User has requested to answer a question and is now answering
 	    	else if(found && users[current_user].answering == true) {
-	    		users[current_user].answering = false;
-	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
-				    if(questions[current_answerer].answerer == sender) {
-				    	// Without a subscription, the bot will get banned if it messages users after 24 hours
-				    	// of interaction. If we find a question that is 24 hours old, it must be removed.
-				    	var cur_date = new Date();
-				    	var question_date = questions[current_answerer].date;
-				    	if((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
-				    		question.splice(current_answerer, 1); // remove the question
-				    		continue;
-				    	} else {
-				    		break;
-				    	}
-				    }
-			   	}
-	    		sleep(3000);
-	    		// Send message to the asker with an answer
-	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
-	    		// Confirm that your answer was sent.
-	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
-	    		promptUser(sender, users, current_user);
-	    		users[current_user].prompted = true;
-	    		questions.shift(); // Remove question from the array
+	    		userAnswering(sender, users, current_user, questions);
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
-	    		users[current_user].asking = false;
-	    		var cur_date = new Date();
-	    		if(original_message.slice(-1) != '?') {
-	    			original_message = original_message + "?"; 
-	    		}
-	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
-	    		sendTextMessage(sender, "Thanks, I will get back to you shortly.");
-	    		promptUser(sender, users, current_user);
-	    		users[current_user].prompted = true;
+	    		userAsking(sender, users, current_user, questions);
+	    		
 	    	} 
 	    	// User has typed 'ask' or some variation of that
 	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
@@ -132,35 +84,12 @@ app.post('/webhook/', function (req, res) {
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
 	    	} 
-	    	// User is not looking to ask or answer
-	    	else if(text != "ask" && text != "answer") {
-		    		promptUser(sender, users, current_user);
-		    } 
+
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
 		    else if(found == false){
 		    		promptUser(sender, users, current_user);
 		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
-	    		users[current_user].prompted = false;
-	    		// If there are no questions waiting to be answered
-	    		if(!questions[0]) {
-	    			sendTextMessage(sender, "No questions right now. Sorry!");
-	    			promptUser(sender, users, current_user);
-	    		} else { // If there is a question 
-	    			var index = 0;
-	    			while(questions[index].asker == sender) {
-	    				index++;
-	    			}
-	    			if(questions[index] == null) {
-	    				sendTextMessage(sender, "No questions right now. Sorry!");
-	    				promptUser(sender, users, current_user);
-	    			} else {
-		    			var question = questions[index].question;
-		    			users[current_user].answering = true;
-		    			questions[index].answerer = sender;
-		    			sleep(1000);
-		    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
-		    		}
-		    	}
+	    		giveUserQuestion(sender, users, current_user, questions);
 	    	} else {
 		    	promptUser(sender, users, current_user);
 		    }
@@ -206,3 +135,66 @@ function promptUser(sender, users, current_user) {
 	}
 	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
 }
+
+function giveUserQuestion(sender, users, current_user, questions) {
+	users[current_user].prompted = false;
+	// If there are no questions waiting to be answered
+	if(!questions[0]) {
+		sendTextMessage(sender, "No questions right now. Sorry!");
+		promptUser(sender, users, current_user);
+	} else { // If there is a question 
+		var index = 0;
+		while(questions[index].asker == sender) {
+	 		index++;
+		}
+		if(questions[index] == null) {
+	 		sendTextMessage(sender, "No questions right now. Sorry!");
+	 		promptUser(sender, users, current_user);
+		} else {
+			var question = questions[index].question;
+			users[current_user].answering = true;
+			questions[index].answerer = sender;
+			sleep(1000);
+			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
+		}
+	}
+}
+
+function userAnswering(sender, users, current_user, questions){
+	var current_answerer;
+	users[current_user].answering = false;
+	for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
+		if(questions[current_answerer].answerer == sender) {
+			// Without a subscription, the bot will get banned if it messages users after 24 hours
+			// of interaction. If we find a question that is 24 hours old, it must be removed.
+			var cur_date = new Date();
+			var question_date = questions[current_answerer].date;
+			if((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
+				question.splice(current_answerer, 1); // remove the question
+				continue;
+			} else {
+				break;
+			}
+		}
+	}
+	sleep(3000);
+	// Send message to the asker with an answer
+	sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
+	// Confirm that your answer was sent.
+	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
+	promptUser(sender, users, current_user);
+	users[current_user].prompted = true;
+	questions.shift(); // Remove question from the array
+}
+
+function userAsking(sender, users, current_user, questions) {
+users[current_user].asking = false;
+	    		var cur_date = new Date();
+	    		if(original_message.slice(-1) != '?') {
+	    			original_message = original_message + "?"; 
+	    		}
+	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
+	    		sendTextMessage(sender, "Thanks, I will get back to you shortly.");
+	    		promptUser(sender, users, current_user);
+	    		users[current_user].prompted = true;
+	    	}
