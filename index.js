@@ -77,7 +77,7 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
-	    		userAsking(sender, users, current_user, questions);
+	    		userAsking(sender, users, current_user, questions, original_message);
 	    	} 
 	    	// User has typed 'ask' or some variation of that
 	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
@@ -197,7 +197,7 @@ function userWantsToAsk(sender, users, current_user) {
 }
 
 // handles when a user asks a question
-function userAsking(sender, users, current_user, questions) {
+function userAsking(sender, users, current_user, questions, original_message) {
 	users[current_user].asking = false;
 	var cur_date = new Date();
 	if(original_message.slice(-1) != '?') {
