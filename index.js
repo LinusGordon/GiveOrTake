@@ -62,9 +62,7 @@ app.post('/webhook/', function (req, res) {
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 
-	    	if(found == false) {
-	    		promptUser(sender, users, current_user);
-	    	}
+	    	
 	    	// User has typed "answer" or some variation of that
 	    	if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		giveUserQuestion(sender, users, current_user, questions);
@@ -200,9 +198,11 @@ function userWantsToAsk(sender, users, current_user) {
 function userAsking(sender, users, current_user, questions, original_message) {
 	users[current_user].asking = false;
 	var cur_date = new Date();
+	
 	if(original_message.slice(-1) != '?') {
 		original_message = original_message + "?"; 
 	}
+	
 	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
 	promptUser(sender, users, current_user);
