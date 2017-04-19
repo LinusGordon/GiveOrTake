@@ -71,12 +71,20 @@ app.post('/webhook/', function (req, res) {
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
 	    		} else { // If there is a question 
-	    			var question = questions[0].question;
-	    			users[current_user].answering = true;
-	    			questions[0].answerer = sender;
-	    			sleep(1000);
-	    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
-	    		}
+	    			var index = 0;
+	    			while(questions[index].asker == questions[index].answerer) {
+	    				index++;
+	    			}
+	    			if(questions[index] == null) {
+	    				sendTextMessage(sendTextMessage(sender, "No questions right now. Sorry!");)
+	    			} else {
+		    			var question = questions[index].question;
+		    			users[current_user].answering = true;
+		    			questions[index].answerer = sender;
+		    			sleep(1000);
+		    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
+		    		}
+		    	}
 	    	} 
 	    	// User has requested to answer a question and is now answering
 	    	else if(found && users[current_user].answering == true) {
