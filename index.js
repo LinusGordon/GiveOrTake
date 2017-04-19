@@ -65,7 +65,7 @@ app.post('/webhook/', function (req, res) {
 
 	    	
 	    	// User has typed "answer" or some variation of that
-	    	if(found && text.includes("s") && text.includes("w") && text.includes("r")) {
+	    	if(found && text.includes("s") && text.includes("w") && text.includes("r") && users[current_user].answering == true) {
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
