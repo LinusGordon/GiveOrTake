@@ -6,6 +6,8 @@ const request = require('request')
 const app = express()
 
 const token = "EAAJUVx9UyPwBABMFMIQuPg0ZAOhVzd3gY7DZCarR8IfpDidteitbZCUWHseNTsMkjOfeZCzOZBBmbTfpZC0oZAOJZCgA5HhUHcxOTZBAST4tgHJDPPKywlg82rcmS4r8UuMVjX9SNSVGrWhUufeCGZAYs2ZB5mgbGzJZAXUGS40H5hZArGgZDZD";
+var questions = [];
+var users = [];
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -39,9 +41,13 @@ app.post('/webhook/', function (req, res) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    if (event.message && event.message.text) {
-		    let text = event.message.text
+		    var text = event.message.text;
+		   	text = text.toLowerCase();
 		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    }
+	    } else if(event.postback && event.postback.payload == "GET_STARTED_PAYLOAD") {
+	    		sendTextMessage(sender, "Do you want to answer a question, or ask a question?");
+	     		//users.push({sender_id: sender, prompted: true, ask: false, answer: false});
+	    } 
     }
     res.sendStatus(200)
 })
