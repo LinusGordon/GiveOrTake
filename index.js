@@ -59,21 +59,27 @@ app.post('/webhook/', function (req, res) {
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
-	    	//sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    	if(found && text == "ask"){
+
+	    	// User has typed 'ask' or some variation of that
+	    	if(found && text.contains("s") && text.contains("k")){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
-	    	} else if(found && text == "answer") {
+	    	} 
+	    	// User has typed "answer" or some variation of that
+	    	else if(found && text.contains("s") && text.contains("w") && text.contains("r")) {
+	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No question right now. Sorry!");
-	    		} else {
+	    		} else { // If there is a question 
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
 	    			questions[0].answerer = sender;
 	    			sleep(1000);
 	    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
 	    		}
-	    	} else if(found && users[current_user].answering == true) {
+	    	} 
+	    	// User has requested to answer a question and is now answering
+	    	else if(found && users[current_user].answering == true) {
 	    		users[current_user].answering = false;
 	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
 				    if(questions[current_answerer].answerer == sender) {
@@ -81,18 +87,29 @@ app.post('/webhook/', function (req, res) {
 				    }
 			   	}
 	    		sleep(3000);
+	    		// Send message to the asker with an answer
 	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
+	    		// Confirm that your answer was sent.
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or ask another question?");
-	    		questions.shift();
-	    	}  else if(found && users[current_user].asking == true) {
+	    		questions.shift(); // Remove question from the array
+	    	}  
+	    	// User has requested to ask a question and is now asking
+	    	else if(found && users[current_user].asking == true) {
 	    		questions.push({question: original_message, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
-	    	} else if(text != "ask" && text != "answer") {
+	    	} 
+	    	// User is not looking to ask or answer
+	    	else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 		    		users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
-		    } else {
-		    	sendTextMessage(sender, "Got to end");
+		    } 
+		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
+		    else {
+		    	users[current_user].answering = false;
+		    	users[current_user].asking = false;
+		    	users[current_user].prompted = false;
+		    	sendTextMessage(sender, "Sorry, I didn't catch that. Do you want to ask or answer a question");
 		    }
 	    }
     }
