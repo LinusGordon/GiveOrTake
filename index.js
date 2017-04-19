@@ -40,11 +40,13 @@ app.post('/webhook/', function (req, res) {
     var current_user;
     var current_answerer;
     var text;
+    var original_message;
     var found = false;
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    if(event.message && event.message.text) {
+	    	// Find the current user
 	    	for(current_user = 0; current_user < users.length; current_user++) {
 			    if(users[current_user].person == sender) {
 			    	found = true;
@@ -52,8 +54,11 @@ app.post('/webhook/', function (req, res) {
 			    }
 		   	}
 		   	sleep(3000);
+
+
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
+	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 	    	//sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    	if(found && text == "ask"){
 	    		sendTextMessage(sender, "Please ask your question.");
@@ -76,11 +81,11 @@ app.post('/webhook/', function (req, res) {
 				    }
 			   	}
 	    		sleep(3000);
-	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + event.message.text);
+	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or ask another question?");
 	    		questions.shift();
 	    	}  else if(found && users[current_user].asking == true) {
-	    		questions.push({question: event.message.text, asker: sender, answerer: null});
+	    		questions.push({question: original_message, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
 	    	} else if(text != "ask" && text != "answer") {
