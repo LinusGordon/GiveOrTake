@@ -66,7 +66,7 @@ app.post('/webhook/', function (req, res) {
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
 	    			questions[0].answerer = sender;
-	    			sleep(500);
+	    			sleep(1000);
 	    			sendTextMessage(sender, question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
@@ -84,6 +84,7 @@ app.post('/webhook/', function (req, res) {
 	    	}  else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "I will get back to you shortly");
+	    		sendTextMessage(sender, "In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
 	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
