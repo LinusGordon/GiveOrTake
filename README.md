@@ -12,6 +12,6 @@ If you say you want to answer a question, the bot will give you a question to an
 Once you answer it, the bot will confirm that it has sent the asker your answer.
 
 ### To Do:     
-This bot is currently undergoing public approval by Facebook.
+This bot is currently undergoing public approval by Facebook. Once it is approved, please visit https://www.facebook.com/Give-or-Take-1830835320511635 and send the bot a message to get started.
 
 
