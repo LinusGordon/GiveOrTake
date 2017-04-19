@@ -54,7 +54,7 @@ app.post('/webhook/', function (req, res) {
 		   	sleep(3000);
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
-	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+	    	//sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    	if(found && text == "ask"){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
