@@ -49,7 +49,7 @@ app.post('/webhook/', function (req, res) {
 			    	break;
 			    }
 		   	}
-	  		sleep(2000);
+	  		sleep(3000);
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
