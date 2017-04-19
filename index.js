@@ -129,7 +129,19 @@ app.post('/webhook/', function (req, res) {
 		    else if(found == false){
 		    	sendTextMessage(sender, "Do you want to ask or answer a question?");
 		    	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
-		    } else {
+		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
+	    		users[current_user].prompted = false;
+	    		// If there are no questions waiting to be answered
+	    		if(!questions[0]) {
+	    			sendTextMessage(sender, "No questions right now. Sorry!");
+	    		} else { // If there is a question 
+	    			var question = questions[0].question;
+	    			users[current_user].answering = true;
+	    			questions[0].answerer = sender;
+	    			sleep(1000);
+	    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
+	    		}
+	    	} else {
 		    	sendTextMessage(sender, "Sorry, I didn't catch that. Do you want to ask or answer a question");
 		    }
 	    }
