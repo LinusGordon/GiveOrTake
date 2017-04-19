@@ -90,7 +90,7 @@ app.post('/webhook/', function (req, res) {
 		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		giveUserQuestion(sender, users, current_user, questions);
 	    	} else {
-		    	promptUser(sender, users, current_user);
+		    	console.log("reached the end");
 		    }
 	    }
     }
