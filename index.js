@@ -70,6 +70,7 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
+	    		users[current_user].answering = false;
 	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
 				    if(questions[current_answerer].answerer == sender) {
 				    	break;
@@ -83,6 +84,7 @@ app.post('/webhook/', function (req, res) {
 	    	}  else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "I will get back to you shortly");
+	    		users[current_user].asking == false;
 	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 		    		users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
