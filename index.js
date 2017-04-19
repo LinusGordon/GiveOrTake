@@ -63,6 +63,8 @@ app.post('/webhook/', function (req, res) {
 	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 		    		users.push({person: sender, prompted: true, asking: false, answering: false});
+		    } else {
+		    	sendTextMessage(sender, "Got to end");
 		    }
 	    }
     }
