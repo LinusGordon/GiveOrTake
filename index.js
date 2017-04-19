@@ -38,6 +38,7 @@ app.listen(app.get('port'), function() {
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     var current_user;
+    var current_answerer;
     var text;
     var found = false;
     for (let i = 0; i < messaging_events.length; i++) {
@@ -57,12 +58,29 @@ app.post('/webhook/', function (req, res) {
 	    	if(found && text == "ask"){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
-	    	} else if(found && users[current_user].asking == true) {
+	    	} else if(found && text == "answer") {
+	    		if(!questions[0]) {
+	    			sendTextMessage(sender, "No question right now. Sorry!");
+	    		} else {
+	    			sendTextMessage(sender, "Please answer the following question:");
+	    			var question = questions[0].question;
+	    			users[current_user].answering = true;
+	    		}
+	    	} else if(found && users[current_user].answering == true) {
+	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
+				    if(users[current_answerer].answerer == sender) {
+				    	break;
+				    }
+			   	}
+	    		sleep(3000);
+	    		sendTextMessage(users[current_answerer].person, event.message.text);
+	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
+	    	}  else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "I will get back to you shortly");
 	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
-		    		users.push({person: sender, prompted: true, asking: false, answering: false});
+		    		users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
 		    } else {
 		    	sendTextMessage(sender, "Got to end");
 		    }
