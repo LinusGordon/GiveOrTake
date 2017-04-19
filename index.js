@@ -37,11 +37,18 @@ app.listen(app.get('port'), function() {
 
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
+    var current_user;
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    var text = event.message.text;
 	    text = text.toLowerCase();
+	    for(current_user = 0; current_user < users.length; current_user++) {
+	    	if(users[current_user] == sender) {
+	    		sendTextMessage(sender, "found you");
+	    		break;
+	    	}
+	    }
 	    if (event.message && event.message.text) {
 		    var text = event.message.text;
 		   	text = text.toLowerCase();
@@ -50,7 +57,15 @@ app.post('/webhook/', function (req, res) {
 	    if(event.message && text) {
 	    	if(text != "ask" && text != "answer") {
 	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
+	    		users.push({person: sender, prompted: true, asking: false, answering: false} });
 	    	}
+	    	if(users[current_user] && users[current_user].prompted == true) {
+	    		users[current_user].prompted = false;
+	    		if(text == "ask") {
+	    			sendTextMessage(sender, "Please ask your question.");
+	    		}
+	    	}
+
 	    }
     }
     res.sendStatus(200)
