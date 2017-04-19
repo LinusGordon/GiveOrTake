@@ -103,7 +103,7 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
-	    		users[current_user].asking == false;
+	    		users[current_user].asking = false;
 	    		var cur_date = new Date();
 	    		if(original_message.slice(-1) != '?') {
 	    			original_message = original_message + "?"; 
