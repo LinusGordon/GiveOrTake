@@ -72,7 +72,7 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
 	    		} else { // If there is a question 
 	    			var index = 0;
-	    			while(questions[index].asker == questions[index].answerer) {
+	    			while(questions[index].asker == sender) {
 	    				index++;
 	    			}
 	    			if(questions[index] == null) {
@@ -144,7 +144,7 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
 	    		} else { // If there is a question 
 	    			var index = 0;
-	    			while(questions[index].asker == questions[index].answerer) {
+	    			while(questions[index].asker == sender) {
 	    				index++;
 	    			}
 	    			if(questions[index] == null) {
