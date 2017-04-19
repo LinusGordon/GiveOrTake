@@ -100,6 +100,7 @@ app.post('/webhook/', function (req, res) {
 	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	    		// Confirm that your answer was sent.
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or ask another question?");
+	    		users[current_user].prompted = true;
 	    		questions.shift(); // Remove question from the array
 	    	}  
 	    	// User has requested to ask a question and is now asking
@@ -111,6 +112,7 @@ app.post('/webhook/', function (req, res) {
 	    		}
 	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
+	    		users[current_user].prompted = true;
 	    	} 
 	    	// User has typed 'ask' or some variation of that
 	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
