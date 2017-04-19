@@ -49,7 +49,7 @@ app.post('/webhook/', function (req, res) {
 			    	break;
 			    }
 		   	}
-	  		sleep(3000);
+		   	sleep(3000);
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
@@ -57,11 +57,11 @@ app.post('/webhook/', function (req, res) {
 	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 	    		users.push({person: sender, prompted: true, asking: false, answering: false});
 	    	}
-	    	if(users[current_user] && users[current_user].prompted == true) {
-	    		users[current_user].prompted = false;
-	    		if(text == "ask") {
-	    			sendTextMessage(sender, "Please ask your question.");
-	    		}
+	    	else if(text == "ask"){
+	    		sendTextMessage(sender, "Please ask your question.");
+	    		users[current_user].asking = true;
+	    	} else if(users[current_user].asking == true) {
+	    		questions.push({question: event.message.text, asker: sender, answerer: null});
 	    	}
 
 	    }
