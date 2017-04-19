@@ -116,9 +116,6 @@ app.post('/webhook/', function (req, res) {
 		    } 
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
 		    else {
-		    	users[current_user].answering = false;
-		    	users[current_user].asking = false;
-		    	users[current_user].prompted = false;
 		    	sendTextMessage(sender, "Sorry, I didn't catch that. Do you want to ask or answer a question");
 		    }
 	    }
