@@ -75,8 +75,8 @@ app.post('/webhook/', function (req, res) {
 				    }
 			   	}
 	    		sleep(3000);
-	    		sendTextMessage(questions[current_answerer].sender, "You asked: " + questions[current_answerer].question);
-	    		sendTextMessage(questions[current_answerer].sender, "The answer is: " + event.message.text);
+	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question);
+	    		sendTextMessage(questions[current_answerer].asker, "The answer is: " + event.message.text);
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	    		questions.shift();
 	    	}  else if(found && users[current_user].asking == true) {
