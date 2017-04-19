@@ -158,7 +158,7 @@ app.post('/webhook/', function (req, res) {
 		    		}
 		    	}
 	    	} else {
-		    	sendTextMessage(sender, "Sorry, I didn't catch that. Do you want to ask or answer a question");
+		    	sendTextMessage(sender, "Something went wrong. Please delete our conversation and try again.");
 		    }
 	    }
     }
