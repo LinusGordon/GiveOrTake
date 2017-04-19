@@ -43,7 +43,7 @@ app.post('/webhook/', function (req, res) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    for(current_user = 0; current_user < users.length; current_user++) {
-	    	if(users[current_user] == sender) {
+	    	if(users[current_user].person == sender) {
 	    		sendTextMessage(sender, "found you");
 	    		break;
 	    	}
