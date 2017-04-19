@@ -41,20 +41,16 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
-	    var text = event.message.text;
-	    text = text.toLowerCase();
 	    for(current_user = 0; current_user < users.length; current_user++) {
 	    	if(users[current_user] == sender) {
 	    		sendTextMessage(sender, "found you");
 	    		break;
 	    	}
 	    }
-	    if (event.message && event.message.text) {
-		    var text = event.message.text;
-		   	text = text.toLowerCase();
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    } 
-	    if(event.message && text) {
+	    if(event.message && event.message.text) {
+	    	text = event.message.text;
+	    	text = text.toLowerCase();
+	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    	if(text != "ask" && text != "answer") {
 	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 	    		users.push({person: sender, prompted: true, asking: false, answering: false});
