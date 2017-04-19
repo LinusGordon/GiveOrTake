@@ -53,7 +53,7 @@ app.post('/webhook/', function (req, res) {
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    	if(text != "ask" && text != "answer") {
+	    	if(text != "ask" && text != "answer" && users[current_user].asking == false && users[current_user].answering == false) {
 	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 	    		users.push({person: sender, prompted: true, asking: false, answering: false});
 	    	}
