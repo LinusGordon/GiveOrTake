@@ -103,16 +103,16 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
+	    		users[current_user].asking == false;
 	    		var cur_date = new Date();
 	    		if(original_message.slice(-1) != '?') {
 	    			original_message = original_message + "?"; 
 	    		}
 	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
-	    		users[current_user].asking == false;
 	    	} 
 	    	// User has typed 'ask' or some variation of that
-	    	else if(found && text.includes("s") && text.includes("k")){
+	    	else if(found && text.includes("ask")){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
 	    	} 
