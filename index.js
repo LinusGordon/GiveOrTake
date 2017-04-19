@@ -162,7 +162,7 @@ app.post('/webhook/', function (req, res) {
 		    		}
 		    	}
 	    	} else {
-		    	//promptUser(sender, users, current_user);
+		    	promptUser(sender, users, current_user);
 		    }
 	    }
     }
