@@ -45,6 +45,9 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
+	    if(event.postback && event.postback.payload == "GET_STARTED_PAYLOAD") {
+	    	sendTextMessage(sender, "Welcome! I will help you ask and answer questions with anyone around the world. How does that sound? :)");
+	    }
 	    if(event.message && event.message.text) {
 	    	// Find the current user
 	    	for(current_user = 0; current_user < users.length; current_user++) {
@@ -104,7 +107,6 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
-	    		console.log("In asking");
 	    		var cur_date = new Date();
 	    		if(original_message.slice(-1) != '?') {
 	    			original_message = original_message + "?"; 
