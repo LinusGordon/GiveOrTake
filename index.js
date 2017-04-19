@@ -86,7 +86,7 @@ app.post('/webhook/', function (req, res) {
 				    	// Without a subscription, the bot will get banned if it messages users after 24 hours
 				    	// of interaction. If we find a question that is 24 hours old, it must be removed.
 				    	var cur_date = new Date();
-				    	var question_date = question[current_answerer].date;
+				    	var question_date = questions[current_answerer].date;
 				    	if((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
 				    		quesiton.splice(current_answerer, 1); // remove the question
 				    		continue;
