@@ -145,8 +145,10 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		promptUser(sender, users, current_user);
 	} else { // If there is a question 
 		var index = 0;
-		while(questions[index].asker == sender) {
-	 		index++;
+		while(questions[index] != null) {
+			if(questions[index].asker == sender) {
+		 		index++;
+			}
 		}
 		if(questions[index] == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
