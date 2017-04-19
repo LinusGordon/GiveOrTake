@@ -78,7 +78,6 @@ app.post('/webhook/', function (req, res) {
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
 	    		userAsking(sender, users, current_user, questions);
-	    		
 	    	} 
 	    	// User has typed 'ask' or some variation of that
 	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
@@ -124,6 +123,8 @@ function sleep(miliseconds) {
    }
 }
 
+// Asks user if they want to answer a question
+// Creates a new user
 function promptUser(sender, users, current_user) {
 	sendTextMessage(sender, "Do you want to ask or answer a question?");
 	// remove repeat users
@@ -135,6 +136,8 @@ function promptUser(sender, users, current_user) {
 	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
 }
 
+
+//Gives the user a question to answer
 function giveUserQuestion(sender, users, current_user, questions) {
 	users[current_user].prompted = false;
 	// If there are no questions waiting to be answered
@@ -159,6 +162,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 	}
 }
 
+// Handles when a user answers a question
 function userAnswering(sender, users, current_user, questions){
 	var current_answerer;
 	users[current_user].answering = false;
@@ -186,12 +190,14 @@ function userAnswering(sender, users, current_user, questions){
 	questions.shift(); // Remove question from the array
 }
 
-function userWantToAsk(sender, users, current_user) {
+// Handles when a user wants to ask a question
+function userWantsToAsk(sender, users, current_user) {
 	users[current_user].prompted = false;
 	sendTextMessage(sender, "Please ask your question.");
 	users[current_user].asking = true;
 }
 
+// handles when a user asks a question
 function userAsking(sender, users, current_user, questions) {
 	users[current_user].asking = false;
 	var cur_date = new Date();
