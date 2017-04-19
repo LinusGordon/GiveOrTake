@@ -39,6 +39,7 @@ app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     var current_user;
     var text;
+    var found = false;
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
@@ -46,6 +47,7 @@ app.post('/webhook/', function (req, res) {
 	    	for(current_user = 0; current_user < users.length; current_user++) {
 			    if(users[current_user].person == sender) {
 			    	sendTextMessage(sender, "found you");
+			    	found = true;
 			    	break;
 			    }
 		   	}
@@ -53,17 +55,19 @@ app.post('/webhook/', function (req, res) {
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    	if(text != "ask" && text != "answer" && users[current_user].asking == false && users[current_user].answering == false) {
-	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
-	    		users.push({person: sender, prompted: true, asking: false, answering: false});
-	    	}
-	    	else if(text == "ask"){
+	    	if(found && text == "ask"){
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
-	    	} else if(users[current_user].asking == true) {
+	    	} else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
-	    	}
+	    	} 
 
+	    	if(users[current_user].asking == false && users[current_user].answering == false) {
+		    	 if(text != "ask" && text != "answer") {
+		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
+		    		users.push({person: sender, prompted: true, asking: false, answering: false});
+		    	}
+			}
 	    }
     }
     res.sendStatus(200)
