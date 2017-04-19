@@ -68,6 +68,7 @@ app.post('/webhook/', function (req, res) {
 		    }
 	    }
     }
+    found = false;
     res.sendStatus(200)
 })
 
