@@ -130,7 +130,7 @@ function promptUser(sender, users, current_user) {
 	// remove repeat users
 	for(var i = 0; i < users.length; i++) {
 		if(users[i].person == sender) {
-			users.splice(index, 1);
+			users.splice(i, 1);
 		}
 	}
 	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
