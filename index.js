@@ -57,8 +57,6 @@ app.post('/webhook/', function (req, res) {
 			    	break;
 			    }
 		   	}
-		   	sleep(3000);
-
 
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
