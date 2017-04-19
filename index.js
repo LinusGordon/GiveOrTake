@@ -70,6 +70,7 @@ app.post('/webhook/', function (req, res) {
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
+	    			promptUser(sender, users, current_user);
 	    		} else { // If there is a question 
 	    			var index = 0;
 	    			while(questions[index].asker == sender) {
@@ -77,6 +78,7 @@ app.post('/webhook/', function (req, res) {
 	    			}
 	    			if(questions[index] == null) {
 	    				sendTextMessage(sender, "No questions right now. Sorry!");
+	    				promptUser(sender, users, current_user);
 	    			} else {
 		    			var question = questions[index].question;
 		    			users[current_user].answering = true;
@@ -107,7 +109,8 @@ app.post('/webhook/', function (req, res) {
 	    		// Send message to the asker with an answer
 	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	    		// Confirm that your answer was sent.
-	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or answer another question?");
+	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
+	    		promptUser(sender, users, current_user);
 	    		users[current_user].prompted = true;
 	    		questions.shift(); // Remove question from the array
 	    	}  
@@ -119,7 +122,8 @@ app.post('/webhook/', function (req, res) {
 	    			original_message = original_message + "?"; 
 	    		}
 	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
-	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
+	    		sendTextMessage(sender, "Thanks, I will get back to you shortly.");
+	    		promptUser(sender, users, current_user);
 	    		users[current_user].prompted = true;
 	    	} 
 	    	// User has typed 'ask' or some variation of that
@@ -130,18 +134,17 @@ app.post('/webhook/', function (req, res) {
 	    	} 
 	    	// User is not looking to ask or answer
 	    	else if(text != "ask" && text != "answer") {
-		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
-		    		users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
+		    		promptUser(sender, users, current_user);
 		    } 
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
 		    else if(found == false){
-		    	sendTextMessage(sender, "Do you want to ask or answer a question?");
-		    	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
+		    		promptUser(sender, users, current_user);
 		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		users[current_user].prompted = false;
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
+	    			promptUser(sender, users, current_user);
 	    		} else { // If there is a question 
 	    			var index = 0;
 	    			while(questions[index].asker == sender) {
@@ -149,6 +152,7 @@ app.post('/webhook/', function (req, res) {
 	    			}
 	    			if(questions[index] == null) {
 	    				sendTextMessage(sender, "No questions right now. Sorry!");
+	    				promptUser(sender, users, current_user);
 	    			} else {
 		    			var question = questions[index].question;
 		    			users[current_user].answering = true;
@@ -158,7 +162,7 @@ app.post('/webhook/', function (req, res) {
 		    		}
 		    	}
 	    	} else {
-		    	sendTextMessage(sender, "Something went wrong. Please delete our conversation and try again.");
+		    	promptUser(sender, users, current_user);
 		    }
 	    }
     }
@@ -188,7 +192,17 @@ function sendTextMessage(sender, text) {
 // Hacky, use callbacks in the morning
 function sleep(miliseconds) {
    var currentTime = new Date().getTime();
-
    while (currentTime + miliseconds >= new Date().getTime()) {
    }
+}
+
+function promptUser(sender, users, current_user) {
+	sendTextMessage(sender, "Do you want to ask or answer a question?");
+	// remove repeat users
+	for(var i = 0; i < users.length; i++) {
+		if(users[i].person == sender) {
+			users.splice(index, 1);
+		}
+	}
+	users.push({person: sender, answerer: null, prompted: true, asking: false, answering: false});
 }
