@@ -99,7 +99,7 @@ app.post('/webhook/', function (req, res) {
 	    		// Send message to the asker with an answer
 	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	    		// Confirm that your answer was sent.
-	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or ask another question?");
+	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or answer another question?");
 	    		users[current_user].prompted = true;
 	    		questions.shift(); // Remove question from the array
 	    	}  
