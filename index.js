@@ -83,7 +83,16 @@ app.post('/webhook/', function (req, res) {
 	    		users[current_user].answering = false;
 	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
 				    if(questions[current_answerer].answerer == sender) {
-				    	break;
+				    	// Without a subscription, the bot will get banned if it messages users after 24 hours
+				    	// of interaction. If we find a question that is 24 hours old, it must be removed.
+				    	var cur_date = new Date();
+				    	var question_date = question[current_answerer].date;
+				    	if((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
+				    		quesiton.splice(current_answerer, 1); // remove the question
+				    		continue;
+				    	} else {
+				    		break;
+				    	}
 				    }
 			   	}
 	    		sleep(3000);
@@ -95,7 +104,8 @@ app.post('/webhook/', function (req, res) {
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
-	    		questions.push({question: original_message, asker: sender, answerer: null});
+	    		var cur_date = new Date();
+	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
 	    	} 
