@@ -43,14 +43,13 @@ app.post('/webhook/', function (req, res) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    if(event.message && event.message.text) {
-	    	setTimeout(function(){
-	    		for(current_user = 0; current_user < users.length; current_user++) {
-			    	if(users[current_user].person == sender) {
-			    		sendTextMessage(sender, "found you");
-			    		break;
-			    	}
-		   		 }
-	    	}, 2000);
+	    	for(current_user = 0; current_user < users.length; current_user++) {
+			    if(users[current_user].person == sender) {
+			    	sendTextMessage(sender, "found you");
+			    	break;
+			    }
+		   	}
+	  		sleep(2000);
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
@@ -87,4 +86,12 @@ function sendTextMessage(sender, text) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
+}
+
+// Hacky, use callbacks in the morning
+function sleep(miliseconds) {
+   var currentTime = new Date().getTime();
+
+   while (currentTime + miliseconds >= new Date().getTime()) {
+   }
 }
