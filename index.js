@@ -40,14 +40,18 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
+	    var text = event.message.text;
+	    text = text.toLowerCase();
 	    if (event.message && event.message.text) {
 		    var text = event.message.text;
 		   	text = text.toLowerCase();
 		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    } else if(event.postback && event.postback.payload == "GET_STARTED_PAYLOAD") {
-	    		sendTextMessage(sender, "Do you want to answer a question, or ask a question?");
-	     		//users.push({sender_id: sender, prompted: true, ask: false, answer: false});
 	    } 
+	    if(event.message && text) {
+	    	if(text != "ask" || text != "answer") {
+	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
+	    	}
+	    }
     }
     res.sendStatus(200)
 })
