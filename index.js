@@ -65,16 +65,18 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, "Please answer the following question:");
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
+	    			questiions[0].answerer = sender;
 	    			sendTextMessage(sender, question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
 	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
-				    if(users[current_answerer].answerer == sender) {
+				    if(questions[current_answerer].answerer == sender) {
 				    	break;
 				    }
 			   	}
 	    		sleep(3000);
-	    		sendTextMessage(users[current_answerer].person, event.message.text);
+	    		sendTextMessage(questions[current_answerer].sender, "You asked: " + questions[current_answerer].question);
+	    		sendTextMessage(questions[current_answerer].sender, "The answer is: " + event.message.text);
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	    		questions.shift();
 	    	}  else if(found && users[current_user].asking == true) {
