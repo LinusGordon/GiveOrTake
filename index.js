@@ -66,7 +66,7 @@ app.post('/webhook/', function (req, res) {
 	    			users[current_user].answering = true;
 	    			questions[0].answerer = sender;
 	    			sleep(1000);
-	    			sendTextMessage(sender, "Please answer the following question: \n" + question);
+	    			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
 	    		users[current_user].answering = false;
@@ -76,12 +76,12 @@ app.post('/webhook/', function (req, res) {
 				    }
 			   	}
 	    		sleep(3000);
-	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n The answer is: " + event.message.text);
-	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
+	    		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + event.message.text);
+	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks! \n \n Do you want to ask another question or ask another question?");
 	    		questions.shift();
 	    	}  else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
-	    		sendTextMessage(sender, "I will get back to you shortly \n In the meantime, do you want to ask another question or answer another question?");
+	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
 	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
