@@ -76,7 +76,7 @@ app.post('/webhook/', function (req, res) {
 	    				index++;
 	    			}
 	    			if(questions[index] == null) {
-	    				sendTextMessage(sendTextMessage(sender, "No questions right now. Sorry!");)
+	    				sendTextMessage(sender, "No questions right now. Sorry!");
 	    			} else {
 		    			var question = questions[index].question;
 		    			users[current_user].answering = true;
