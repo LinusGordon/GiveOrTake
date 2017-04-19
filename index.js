@@ -59,14 +59,10 @@ app.post('/webhook/', function (req, res) {
 	    		users[current_user].asking = true;
 	    	} else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
-	    	} 
-
-	    	if(found && users[current_user].asking == false && users[current_user].answering == false) {
-		    	 if(text != "ask" && text != "answer") {
+	    	} else if(text != "ask" && text != "answer") {
 		    		sendTextMessage(sender, "Do you want to ask or answer a question?");
 		    		users.push({person: sender, prompted: true, asking: false, answering: false});
-		    	}
-			}
+		    }
 	    }
     }
     res.sendStatus(200)
