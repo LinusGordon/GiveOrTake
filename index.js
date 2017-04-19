@@ -63,13 +63,9 @@ app.post('/webhook/', function (req, res) {
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 
-	    	// User has typed 'ask' or some variation of that
-	    	if(found && text.includes("s") && text.includes("k")){
-	    		sendTextMessage(sender, "Please ask your question.");
-	    		users[current_user].asking = true;
-	    	} 
+	    	
 	    	// User has typed "answer" or some variation of that
-	    	else if(found && text.includes("s") && text.includes("w") && text.includes("r")) {
+	    	if(found && text.includes("s") && text.includes("w") && text.includes("r")) {
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
@@ -114,6 +110,11 @@ app.post('/webhook/', function (req, res) {
 	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    		users[current_user].asking == false;
+	    	} 
+	    	// User has typed 'ask' or some variation of that
+	    	else if(found && text.includes("s") && text.includes("k")){
+	    		sendTextMessage(sender, "Please ask your question.");
+	    		users[current_user].asking = true;
 	    	} 
 	    	// User is not looking to ask or answer
 	    	else if(text != "ask" && text != "answer") {
