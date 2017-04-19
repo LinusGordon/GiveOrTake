@@ -64,7 +64,9 @@ app.post('/webhook/', function (req, res) {
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 
-	    	
+	    	if(found == false) {
+	    		promptUser(sender, users, current_user);
+	    	}
 	    	// User has typed "answer" or some variation of that
 	    	if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		giveUserQuestion(sender, users, current_user, questions);
@@ -80,11 +82,8 @@ app.post('/webhook/', function (req, res) {
 	    	} 
 	    	// User has typed 'ask' or some variation of that
 	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
-	    		users[current_user].prompted = false;
-	    		sendTextMessage(sender, "Please ask your question.");
-	    		users[current_user].asking = true;
+	    		userWantsToAsk(sender, users, current_user);
 	    	} 
-
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
 		    else if(found == false){
 		    		promptUser(sender, users, current_user);
@@ -187,14 +186,20 @@ function userAnswering(sender, users, current_user, questions){
 	questions.shift(); // Remove question from the array
 }
 
+function userWantToAsk(sender, users, current_user) {
+	users[current_user].prompted = false;
+	sendTextMessage(sender, "Please ask your question.");
+	users[current_user].asking = true;
+}
+
 function userAsking(sender, users, current_user, questions) {
-users[current_user].asking = false;
-	    		var cur_date = new Date();
-	    		if(original_message.slice(-1) != '?') {
-	    			original_message = original_message + "?"; 
-	    		}
-	    		questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
-	    		sendTextMessage(sender, "Thanks, I will get back to you shortly.");
-	    		promptUser(sender, users, current_user);
-	    		users[current_user].prompted = true;
-	    	}
+	users[current_user].asking = false;
+	var cur_date = new Date();
+	if(original_message.slice(-1) != '?') {
+		original_message = original_message + "?"; 
+	}
+	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
+	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
+	promptUser(sender, users, current_user);
+	users[current_user].prompted = true;
+}
