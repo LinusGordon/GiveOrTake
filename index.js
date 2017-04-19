@@ -65,6 +65,7 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, "Please answer the following question:");
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
+	    			sendTextMessage(sender, question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
 	    		for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
@@ -75,6 +76,7 @@ app.post('/webhook/', function (req, res) {
 	    		sleep(3000);
 	    		sendTextMessage(users[current_answerer].person, event.message.text);
 	    		sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
+	    		questions.shift();
 	    	}  else if(found && users[current_user].asking == true) {
 	    		questions.push({question: event.message.text, asker: sender, answerer: null});
 	    		sendTextMessage(sender, "I will get back to you shortly");
