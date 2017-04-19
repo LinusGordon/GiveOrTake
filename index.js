@@ -57,7 +57,7 @@ app.post('/webhook/', function (req, res) {
 	    if(event.message && text) {
 	    	if(text != "ask" && text != "answer") {
 	    		sendTextMessage(sender, "Do you want to ask or answer a question?");
-	    		users.push({person: sender, prompted: true, asking: false, answering: false} });
+	    		users.push({person: sender, prompted: true, asking: false, answering: false});
 	    	}
 	    	if(users[current_user] && users[current_user].prompted == true) {
 	    		users[current_user].prompted = false;
