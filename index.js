@@ -65,7 +65,7 @@ app.post('/webhook/', function (req, res) {
 	    			sendTextMessage(sender, "Please answer the following question:");
 	    			var question = questions[0].question;
 	    			users[current_user].answering = true;
-	    			questiions[0].answerer = sender;
+	    			questions[0].answerer = sender;
 	    			sendTextMessage(sender, question);
 	    		}
 	    	} else if(found && users[current_user].answering == true) {
