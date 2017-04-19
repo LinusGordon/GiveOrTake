@@ -65,7 +65,8 @@ app.post('/webhook/', function (req, res) {
 
 	    	
 	    	// User has typed "answer" or some variation of that
-	    	if(found && text.includes("s") && text.includes("w") && text.includes("r") && users[current_user].answering == true) {
+	    	if(found && text.includes("answer") && users[current_user].prompted == true) {
+	    		users[current_user].prompted = false;
 	    		// If there are no questions waiting to be answered
 	    		if(!questions[0]) {
 	    			sendTextMessage(sender, "No questions right now. Sorry!");
@@ -112,7 +113,8 @@ app.post('/webhook/', function (req, res) {
 	    		sendTextMessage(sender, "Thanks, I will get back to you shortly. \n \n In the meantime, do you want to ask another question or answer another question?");
 	    	} 
 	    	// User has typed 'ask' or some variation of that
-	    	else if(found && text.includes("ask")){
+	    	else if(found && text.includes("ask") && users[current_user].prompted == true){
+	    		users[current_user].prompted = false;
 	    		sendTextMessage(sender, "Please ask your question.");
 	    		users[current_user].asking = true;
 	    	} 
