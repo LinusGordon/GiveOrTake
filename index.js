@@ -43,12 +43,14 @@ app.post('/webhook/', function (req, res) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
 	    if(event.message && event.message.text) {
-	    	for(current_user = 0; current_user < users.length; current_user++) {
-		    	if(users[current_user].person == sender) {
-		    		sendTextMessage(sender, "found you");
-		    		break;
-		    	}
-		    }
+	    	setTimeout(function {
+	    		for(current_user = 0; current_user < users.length; current_user++) {
+			    	if(users[current_user].person == sender) {
+			    		sendTextMessage(sender, "found you");
+			    		break;
+			    	}
+		   		 }
+			}, 1000);
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
