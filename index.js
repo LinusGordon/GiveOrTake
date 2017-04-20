@@ -198,6 +198,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	var popped_question = questions.splice(index, 1); // Remove question from the array
 	popped_question.answerer = null;
 	questions.push(popped_question);
+	console.log(questions[questions.length - 1]);
 }
 
 // Handles when a user wants to ask a question
