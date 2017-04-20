@@ -155,7 +155,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		 		break;
 			} 
 		}
-		if (!questions[index] || !questions[index].question) {
+		if (questions[index] == null || questions[index].question == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
 	 		console.log("Issue is in 2");
 	 		setPrompt(sender, users, current_user);
