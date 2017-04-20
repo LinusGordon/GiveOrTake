@@ -149,7 +149,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		setPrompt(sender, users, current_user);
 	} else { // If there is a question 
 		var index;
-		for(var index = 0; index < questions.length; index++) {
+		for(index = 0; index < questions.length; index++) {
 			if (questions[index].asker != sender) {
 		 		break;
 			} 
