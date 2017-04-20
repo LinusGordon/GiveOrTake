@@ -168,9 +168,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 			var cur_date = new Date();
 			var question_date = questions[current_answerer].date;
 			if ((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
-				var popped_question = questions.splice(current_answerer, 1); // remove the question
-				popped_question.asker = null; // when the question is repeated, don't send an answer twice
-				questions.push(popped_question);
+				questions.splice(current_answerer, 1); // remove the question
 				continue;
 			} else {
 				break;
@@ -186,7 +184,9 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 	users[current_user].state = "prompted";
-	questions.shift(); // Remove question from the array
+	var popped_question = questions.shift(); // Remove question from the array
+	popped_question.asker = null; // when the question is repeated, don't send an answer twice
+	questions.push(popped_question);
 }
 
 // Handles when a user wants to ask a question
