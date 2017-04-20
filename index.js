@@ -188,15 +188,15 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	}
 	// Send message to the asker with an answer
 	// It would equal null if it is a repeat question. 
-	if(questions[index] && questions[index].asker != null) {
+	if(questions[index] && questions[index].completed == false) {
 		sendTextMessage(questions[index].asker, "You asked: " + questions[index].question + "\n \nThe answer is: " + original_message);
+		question[index].completed = true;
 	}
 	// Confirm that your answer was sent.
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 	users[current_user].state = "prompted";
 	var popped_question = questions.shift(); // Remove question from the array
-	popped_question.asker = null; // when the question is repeated, don't send an answer twice
 	popped_question.answerer = null;
 	questions.push(popped_question);
 }
@@ -215,7 +215,7 @@ function userAsking(sender, users, current_user, questions, original_message) {
 		original_message = original_message + "?"; 
 	}
 	
-	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
+	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date, completed: false});
 	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
 	promptUser(sender, users, current_user);
 }
