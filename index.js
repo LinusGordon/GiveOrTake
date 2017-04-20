@@ -217,4 +217,5 @@ function userAsking(sender, users, current_user, questions, original_message) {
 	
 	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date, completed: false});
 	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
+	setTimeout(promptUser(sender, users, current_user), 1000);
 }
