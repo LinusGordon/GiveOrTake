@@ -171,15 +171,15 @@ function giveUserQuestion(sender, users, current_user, questions) {
 
 // Handles when a user answers a question
 function userAnswering(sender, users, current_user, questions, original_message) {
-	var current_answerer;
-	for (current_answerer = 0; current_answerer < users.length; current_answerer++) {
-		if (questions[current_answerer].answerer == sender) {
+	var index;
+	for (index = 0; index < questions.length; index++) {
+		if (questions[index].answerer == sender) {
 			// Without a subscription, the bot will get banned if it messages users after 24 hours
 			// of interaction. If we find a question that is 24 hours old, it must be removed.
 			var cur_date = new Date();
-			var question_date = questions[current_answerer].date;
+			var question_date = questions[index].date;
 			if ((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
-				questions.splice(current_answerer, 1); // remove the question
+				questions.splice(index, 1); // remove the question
 				continue;
 			} else {
 				break;
@@ -188,8 +188,8 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	}
 	// Send message to the asker with an answer
 	// It would equal null if it is a repeat question. 
-	if(questions[current_answerer] && questions[current_answerer].asker != null) {
-		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
+	if(questions[index] && questions[index].asker != null) {
+		sendTextMessage(questions[index].asker, "You asked: " + questions[index].question + "\n \nThe answer is: " + original_message);
 	}
 	// Confirm that your answer was sent.
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
@@ -218,5 +218,4 @@ function userAsking(sender, users, current_user, questions, original_message) {
 	questions.push({question: original_message, asker: sender, answerer: null, date: cur_date});
 	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
 	promptUser(sender, users, current_user);
-	users[current_user].state = "prompted";
 }
