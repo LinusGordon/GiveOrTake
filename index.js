@@ -139,7 +139,10 @@ function giveUserQuestion(sender, users, current_user, questions) {
 			console.log("infinite loop you idiot");
 			if(questions[index].asker == sender) {
 		 		index++;
+			} else {
+				break;
 			}
+
 		}
 		if(questions[index] == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
