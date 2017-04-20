@@ -1,39 +1,39 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const app = express();
 
 const token = "EAAJUVx9UyPwBABMFMIQuPg0ZAOhVzd3gY7DZCarR8IfpDidteitbZCUWHseNTsMkjOfeZCzOZBBmbTfpZC0oZAOJZCgA5HhUHcxOTZBAST4tgHJDPPKywlg82rcmS4r8UuMVjX9SNSVGrWhUufeCGZAYs2ZB5mgbGzJZAXUGS40H5hZArGgZDZD";
 var questions = [];
 var users = [];
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', (process.env.PORT || 5000));
 
 // Process application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Process application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // Index route
 app.get('/', function (req, res) {
-	res.send('Hello world, I am a chat bot')
-})
+	res.send('Hello world, I am a chat bot');
+});
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
-		res.send(req.query['hub.challenge'])
+		res.send(req.query['hub.challenge']);
 	}
-	res.send('Error, wrong token')
-})
+	res.send('Error, wrong token');
+});
 
 // Spin up the server
 app.listen(app.get('port'), function() {
-	console.log('running on port', app.get('port'))
-})
+	console.log('running on port', app.get('port'));
+});
 
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
@@ -42,18 +42,20 @@ app.post('/webhook/', function (req, res) {
     var text;
     var original_message;
     var found = false;
+    var user_state;
     for (let i = 0; i < messaging_events.length; i++) {
-	    let event = req.body.entry[0].messaging[i]
-	    let sender = event.sender.id
-	    if(event.postback && event.postback.payload == "GET_STARTED_PAYLOAD") {
+	    let event = req.body.entry[0].messaging[i];
+	    let sender = event.sender.id;
+	    if (event.postback && event.postback.payload == "GET_STARTED_PAYLOAD") {
 	    	sendTextMessage(sender, "Welcome! I will help you ask and answer questions with anyone around the world. How does that sound? :)");
 	    }
-	    if(event.message && event.message.text) {
+	    if (event.message && event.message.text) {
 	    	
 	    	// Find the current user
-	    	for(current_user = 0; current_user < users.length; current_user++) {
-			    if(users[current_user].person == sender) {
+	    	for (current_user = 0; current_user < users.length; current_user++) {
+			    if (users[current_user].person == sender) {
 			    	found = true;
+			    	user_state = users[current_user].state;
 			    	break;
 			    }
 		   	}
@@ -61,28 +63,28 @@ app.post('/webhook/', function (req, res) {
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
-
+	    	
 	    	// New User
-	    	if(!found) {
+	    	if (!found) {
 	    		promptUser(sender, users, current_user);
 	    	}
 	    	// User has requested to answer a question and is now answering
-	    	else if(found && users[current_user].state == "answering") {
+	    	else if (found && user_state == "answering") {
 	    		userAnswering(sender, users, current_user, questions, original_message);
 	    	}  
 	    	// User has requested to ask a question and is now asking
-	    	else if(found && users[current_user].state == "asking") {
+	    	else if (found && user_state == "asking") {
 	    		userAsking(sender, users, current_user, questions, original_message);
 	    	} 
 	    	// User has typed 'ask' or some variation of that
-	    	else if(found && text.includes("ask") && users[current_user].state == "prompted"){
+	    	else if (found && text.includes("ask") && user_state == "prompted"){
 	    		userWantsToAsk(sender, users, current_user);
 	    	} 
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
-		    else if(found && text.includes("answer") && users[current_user].state == "prompted") {
+		    else if (found && text.includes("answer") && user_state == "prompted") {
 	    		giveUserQuestion(sender, users, current_user, questions);
-	    	} else if(found) {
-	    		sendTextMessage("Sorry, can you repeat that?");
+	    	} else if (found) {
+	    		sendTextMessage(sender, "Sorry, can you repeat that?");
 	    		promptUser(sender, users, current_user);
 	    	}
 	    	else {
@@ -109,7 +111,7 @@ function sendTextMessage(sender, text) {
 		} else if (response.body.error) {
 		    console.log('Error: ', response.body.error)
 	    }
-    })
+    });
 }
 
 // Asks user if they want to answer a question
@@ -117,8 +119,8 @@ function sendTextMessage(sender, text) {
 function promptUser(sender, users, current_user) {
 	sendTextMessage(sender, "Do you want to ask or answer a question?");
 	// remove repeat users
-	for(var i = 0; i < users.length; i++) {
-		if(users[i].person == sender) {
+	for (var i = 0; i < users.length; i++) {
+		if (users[i].person == sender) {
 			users.splice(i, 1);
 		}
 	}
@@ -134,15 +136,15 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		promptUser(sender, users, current_user);
 	} else { // If there is a question 
 		var index = 0;
-		while(questions[index] != null) {
-			if(questions[index].asker == sender) {
+		while (questions[index] != null) {
+			if (questions[index].asker == sender) {
 		 		index++;
 			} else {
 				break;
 			}
 
 		}
-		if(questions[index] == null) {
+		if (questions[index] == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
 	 		promptUser(sender, users, current_user);
 		} else {
@@ -155,15 +157,15 @@ function giveUserQuestion(sender, users, current_user, questions) {
 }
 
 // Handles when a user answers a question
-function userAnswering(sender, users, current_user, questions, original_message){
+function userAnswering(sender, users, current_user, questions, original_message) {
 	var current_answerer;
-	for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
-		if(questions[current_answerer].answerer == sender) {
+	for (current_answerer = 0; current_answerer < users.length; current_answerer++) {
+		if (questions[current_answerer].answerer == sender) {
 			// Without a subscription, the bot will get banned if it messages users after 24 hours
 			// of interaction. If we find a question that is 24 hours old, it must be removed.
 			var cur_date = new Date();
 			var question_date = questions[current_answerer].date;
-			if((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
+			if ((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
 				question.splice(current_answerer, 1); // remove the question
 				continue;
 			} else {
@@ -190,7 +192,7 @@ function userWantsToAsk(sender, users, current_user) {
 function userAsking(sender, users, current_user, questions, original_message) {
 	var cur_date = new Date();
 	
-	if(original_message.slice(-1) != '?') {
+	if (original_message.slice(-1) != '?') {
 		original_message = original_message + "?"; 
 	}
 	
