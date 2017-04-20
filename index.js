@@ -168,7 +168,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 			var cur_date = new Date();
 			var question_date = questions[current_answerer].date;
 			if ((Math.abs(cur_date - question_date) / 36e5) >= 23.5) { // 36e5 helps convert milliseconds to hours
-				var popped_question = question.splice(current_answerer, 1); // remove the question
+				var popped_question = questions.splice(current_answerer, 1); // remove the question
 				popped_question.asker = null; // when the question is repeated, don't send an answer twice
 				questions.push(popped_question);
 				continue;
