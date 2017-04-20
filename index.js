@@ -146,7 +146,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 	// If there are no questions waiting to be answered
 	if(!questions[0]) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
-		promptUser(sender, users, current_user);
+		setPrompt(sender, users, current_user);
 	} else { // If there is a question 
 		var index = 0;
 		for(var i = 0; i < questions.length; i++) {
@@ -159,7 +159,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		}
 		if (questions[index] == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
-	 		promptUser(sender, users, current_user);
+	 		setPrompt(sender, users, current_user);
 		} else {
 			var question = questions[index].question;
 			users[current_user].state = "answering";
