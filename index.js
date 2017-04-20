@@ -86,7 +86,6 @@ app.post('/webhook/', function (req, res) {
 		    else if (found && text.includes("answer") && user_state == "prompted") {
 	    		giveUserQuestion(sender, users, current_user, questions);
 	    	} else if (found) {
-	    		sendTextMessage(sender, "Sorry, can you repeat that?");
 	    		promptUser(sender, users, current_user);
 	    	}
 	    	else {
