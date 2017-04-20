@@ -149,7 +149,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		promptUser(sender, users, current_user);
 	} else { // If there is a question 
 		var index = 0;
-		for(var i = 0; i < question.length; i++) {
+		for(var i = 0; i < questions.length; i++) {
 			if (questions[index].asker == sender) {
 		 		index++;
 			} else {
