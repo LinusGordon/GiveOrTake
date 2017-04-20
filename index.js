@@ -67,8 +67,8 @@ app.post('/webhook/', function (req, res) {
 	    	// New User
 	    	if (!found) {
 	    		promptUser(sender, users, current_user);
-	    	} else if(found && user_state == "prompted" && (text == "yes" || text == "no")) {
-	    		sendTextMessage(sender, "If you want to answer a question, say 'answer'. \n \n If you want to ask a question, say 'ask'");
+	    	} else if(found && user_state == "prompted" && text != "ask" && text != "answer") {
+	    		sendTextMessage(sender, "If you want to answer a question, you must type 'answer'. \n \n If you want to ask a question, you must type 'ask'");
 	    	}
 	    	// User has requested to answer a question and is now answering
 	    	else if (found && user_state == "answering") {
