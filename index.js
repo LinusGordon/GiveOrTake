@@ -148,16 +148,13 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
 		setPrompt(sender, users, current_user);
 	} else { // If there is a question 
-		var index = 0;
-		for(var i = 0; i < questions.length; i++) {
-			if (questions[index].asker == sender) {
-		 		index++;
-			} else {
-				break;
-			}
-
+		var index;
+		for(var index = 0; i < questions.length; index++) {
+			if (questions[index].asker != sender) {
+		 		break;
+			} 
 		}
-		if (questions[index] == undefined) {
+		if (questions[index] == undefined || questions[index] == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
 	 		setPrompt(sender, users, current_user);
 		} else {
