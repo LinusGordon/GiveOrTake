@@ -1,17 +1,28 @@
 # Give or Take  
-Ask and answer questions with anybody on Facebook through a Messenger chatbot.
+Facebook approved Messenger bot to ask and answer questions with anyone around the world.
 
-## Process:
-The bot will start by asking you if you want to ask a question or answer a question.
-### Asking a question
-If you say you want to ask a question, the bot will prompt you to ask it. Once you ask it, the bot notifies you that it will be answered by another user soon.
-When a user answers your question, the bot will remind you of the question you asked and give you the answer.
+## Flow:
 
-## Answering a question: 
-If you say you want to answer a question, the bot will give you a question to answer that another user asked.
-Once you answer it, the bot will confirm that it has sent the asker your answer.
+## The user goes to message the bot for the first time:
 
-### To Do:     
-- [x] This bot is currently undergoing public approval by Facebook. Once it is approved, please visit https://www.facebook.com/Give-or-Take-1830835320511635 and send the bot a message to get started.
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeScreen.png)
 
-This bot has passed Facebook's screening and is now available to the public. Please visit https://www.facebook.com/Give-or-Take-1830835320511635 and send the bot a message to get started.
+## The user hits get started, and answers the bot's first question:
+
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeMessage.png)
+
+## This user decides to ask a question first:
+
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/askedQuestion.png)
+
+## Then, the user decides to answer a question:
+
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/answeredQuestion.png)
+
+## Later on, another user answers the question that the original user asked. The original user is notified of his question and answer as the highlighted text in the image shows:
+
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/questionAnswered.png)
+
+# Significant Notes
+This bot has passed Facebook's screening and is now available to the public. 
+Please visit https://www.facebook.com/Give-or-Take-1830835320511635 and send the bot a message to get started.
