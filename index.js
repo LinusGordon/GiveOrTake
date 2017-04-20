@@ -149,7 +149,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		promptUser(sender, users, current_user);
 	} else { // If there is a question 
 		var index = 0;
-		while (questions[index] != null) {
+		for(var i = 0; i < question.length; i++) {
 			if (questions[index].asker == sender) {
 		 		index++;
 			} else {
@@ -188,7 +188,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	}
 	// Send message to the asker with an answer
 	// It would equal null if it is a repeat question. 
-	if(questions[current_answerer].asker != null) {
+	if(questions[current_answerer] && questions[current_answerer].asker != null) {
 		sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	}
 	// Confirm that your answer was sent.
@@ -197,6 +197,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	users[current_user].state = "prompted";
 	var popped_question = questions.shift(); // Remove question from the array
 	popped_question.asker = null; // when the question is repeated, don't send an answer twice
+	popped_question.answerer = null;
 	questions.push(popped_question);
 }
 
