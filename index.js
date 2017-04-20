@@ -85,7 +85,6 @@ app.post('/webhook/', function (req, res) {
 	    		sendTextMessage("Sorry, can you repeat that?");
 	    		promptUser(sender, users, current_user);
 	    	}
-
 	    	else {
 		    	console.log("reached the end");
 		    }
@@ -137,6 +136,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 	} else { // If there is a question 
 		var index = 0;
 		while(questions[index] != null) {
+			console.log("infinite loop you idiot");
 			if(questions[index].asker == sender) {
 		 		index++;
 			}
