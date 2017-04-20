@@ -62,11 +62,10 @@ app.post('/webhook/', function (req, res) {
 	    	text = text.toLowerCase();
 	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
 
-	    	
-	    	// User has typed "answer" or some variation of that
-	    	if(found && text.includes("answer") && users[current_user].prompted == true) {
-	    		giveUserQuestion(sender, users, current_user, questions);
-	    	} 
+	    	// New User
+	    	if(!found) {
+	    		promptUser(sender, users, current_user);
+	    	}
 	    	// User has requested to answer a question and is now answering
 	    	else if(found && users[current_user].answering == true) {
 	    		userAnswering(sender, users, current_user, questions);
@@ -80,11 +79,14 @@ app.post('/webhook/', function (req, res) {
 	    		userWantsToAsk(sender, users, current_user);
 	    	} 
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
-		    else if(!found){
-		    		promptUser(sender, users, current_user);
-		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
+		    else if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		giveUserQuestion(sender, users, current_user, questions);
-	    	} else {
+	    	} else if(found) {
+	    		sendTextMessage("Sorry, can you repeat that?");
+	    		promptUser(sender, users, current_user);
+	    	}
+
+	    	else {
 		    	console.log("reached the end");
 		    }
 	    }
