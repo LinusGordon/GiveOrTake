@@ -196,7 +196,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 	users[current_user].state = "prompted";
-	var popped_question = questions.shift(); // Remove question from the array
+	var popped_question = questions.splice(index, 1); // Remove question from the array
 	popped_question.answerer = null;
 	questions.push(popped_question);
 }
