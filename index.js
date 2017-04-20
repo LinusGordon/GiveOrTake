@@ -80,7 +80,7 @@ app.post('/webhook/', function (req, res) {
 	    		userWantsToAsk(sender, users, current_user);
 	    	} 
 		    // If a user somehow gets here, treat them as new and ask them to ask or answer again
-		    else if(found == false){
+		    else if(!found){
 		    		promptUser(sender, users, current_user);
 		    } else if(found && text.includes("answer") && users[current_user].prompted == true) {
 	    		giveUserQuestion(sender, users, current_user, questions);
