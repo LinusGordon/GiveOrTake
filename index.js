@@ -5,6 +5,18 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 
+var http = require("http");
+
+// NOTE ABOUT THE FOLLOWING FUNCTION:
+// - I am using a free heroku app, which 'sleeps' every hour if it is not pinged
+// - When someone pings it after this hour, it starts up again with a different IP address
+// - Some IP addresses are blacklisted from FB, which causes my app to crash
+// - By pinging it every 30 minutes, it will never sleep and the IP address will never
+//   change to a blacklisted one
+setInterval(function() {
+    http.get("http://peaceful-caverns-10612.herokuapp.com");
+}, 1800000); // 30 minutes
+
 const token = "EAAJUVx9UyPwBABMFMIQuPg0ZAOhVzd3gY7DZCarR8IfpDidteitbZCUWHseNTsMkjOfeZCzOZBBmbTfpZC0oZAOJZCgA5HhUHcxOTZBAST4tgHJDPPKywlg82rcmS4r8UuMVjX9SNSVGrWhUufeCGZAYs2ZB5mgbGzJZAXUGS40H5hZArGgZDZD";
 var questions = [];
 var users = [];
