@@ -196,9 +196,9 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	promptUser(sender, users, current_user);
 
 	var popped_question = questions.splice(index, 1); // Remove question from the array
-	popped_question[answerer] = null;
+	popped_question.answerer = null;
 	questions.push(popped_question);
-	console.log(questions[questions.length - 1]);
+	console.log(popped_question);
 }
 
 // Handles when a user wants to ask a question
