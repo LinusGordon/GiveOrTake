@@ -74,7 +74,7 @@ app.post('/webhook/', function (req, res) {
 
 	    	text = event.message.text;
 	    	text = text.toLowerCase();
-	    	original_message = event.message.text.replace(/[&*;{}~><]/g,""); // Sanitize string 
+	    	original_message = event.message.text.replace(/[*{}><]/g,""); // Sanitize string 
 	    	
 	    	// New User
 	    	if (!found) {
