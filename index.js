@@ -68,7 +68,7 @@ app.post('/webhook/', function (req, res) {
 	    	}
 	    	// User has requested to answer a question and is now answering
 	    	else if(found && users[current_user].answering == true) {
-	    		userAnswering(sender, users, current_user, questions);
+	    		userAnswering(sender, users, current_user, questions, original_message);
 	    	}  
 	    	// User has requested to ask a question and is now asking
 	    	else if(found && users[current_user].asking == true) {
@@ -157,7 +157,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 }
 
 // Handles when a user answers a question
-function userAnswering(sender, users, current_user, questions){
+function userAnswering(sender, users, current_user, questions, original_message){
 	var current_answerer;
 	users[current_user].answering = false;
 	for(current_answerer = 0; current_answerer < users.length; current_answerer++) {
