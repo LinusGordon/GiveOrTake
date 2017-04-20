@@ -111,13 +111,6 @@ function sendTextMessage(sender, text) {
     })
 }
 
-// Hacky, use callbacks in the morning
-function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
-}
-
 // Asks user if they want to answer a question
 // Creates a new user
 function promptUser(sender, users, current_user) {
@@ -153,7 +146,6 @@ function giveUserQuestion(sender, users, current_user, questions) {
 			var question = questions[index].question;
 			users[current_user].answering = true;
 			questions[index].answerer = sender;
-			sleep(1000);
 			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
 		}
 	}
@@ -177,7 +169,6 @@ function userAnswering(sender, users, current_user, questions){
 			}
 		}
 	}
-	sleep(3000);
 	// Send message to the asker with an answer
 	sendTextMessage(questions[current_answerer].asker, "You asked: " + questions[current_answerer].question + "\n \nThe answer is: " + original_message);
 	// Confirm that your answer was sent.
