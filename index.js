@@ -146,6 +146,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 	// If there are no questions waiting to be answered
 	if(!questions[0]) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
+		console.log("Issue is in 1");
 		setPrompt(sender, users, current_user);
 	} else { // If there is a question 
 		var index;
@@ -156,6 +157,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		}
 		if (!questions[index] || !questions[index].question) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
+	 		console.log("Issue is in 2");
 	 		setPrompt(sender, users, current_user);
 		} else {
 			var question = questions[index].question;
@@ -192,7 +194,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	// Confirm that your answer was sent.
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
-	users[current_user].state = "prompted";
+
 	var popped_question = questions.splice(index, 1); // Remove question from the array
 	popped_question.answerer = null;
 	questions.push(popped_question);
