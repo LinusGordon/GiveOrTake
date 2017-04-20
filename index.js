@@ -157,7 +157,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 			}
 
 		}
-		if (questions[index] == null) {
+		if (questions[index] == undefined) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
 	 		setPrompt(sender, users, current_user);
 		} else {
