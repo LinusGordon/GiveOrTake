@@ -15,14 +15,13 @@ Facebook approved Messenger bot to ask and answer questions with anyone around t
 
 ![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/askedQuestion.png)
 
+## Soon after, another user answers the question. The original user is notified of his question and answer:
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/questionAnswered.png)
+
 ## Then, the user decides to answer a question:
 
 ![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/answeredQuestion.png)
 
-## Later on, another user answers the question that the original user asked. The original user is notified of his question and answer as the highlighted text in the image shows:
-
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/questionAnswered.png)
-
 # Significant Notes
 This bot has passed Facebook's screening and is now available to the public. 
-Please visit https://www.facebook.com/Give-or-Take-1830835320511635 and send the bot a message to get started.
+Please visit https://www.facebook.com/GiveOrTakeChatbot and send the bot a message to get started.
