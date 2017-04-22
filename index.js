@@ -17,7 +17,6 @@ setInterval(function() {
     http.get("http://peaceful-caverns-10612.herokuapp.com");
 }, 1800000); // 30 minutes
 
-const token;
 var questions = [];
 var users = [];
 
