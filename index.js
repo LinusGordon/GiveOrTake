@@ -17,7 +17,7 @@ setInterval(function() {
     http.get("http://peaceful-caverns-10612.herokuapp.com");
 }, 1800000); // 30 minutes
 
-const token = "EAAJUVx9UyPwBABMFMIQuPg0ZAOhVzd3gY7DZCarR8IfpDidteitbZCUWHseNTsMkjOfeZCzOZBBmbTfpZC0oZAOJZCgA5HhUHcxOTZBAST4tgHJDPPKywlg82rcmS4r8UuMVjX9SNSVGrWhUufeCGZAYs2ZB5mgbGzJZAXUGS40H5hZArGgZDZD";
+const token;
 var questions = [];
 var users = [];
 
