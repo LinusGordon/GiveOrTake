@@ -6,6 +6,9 @@ const request = require('request');
 const app = express();
 const token = process.env.token;
 var http = require("http");
+var total_usage;
+var total_questions_asked;
+var total_questions_answered;
  
 // NOTE ABOUT THE FOLLOWING FUNCTION:
 // - I am using a free heroku app, which 'sleeps' every hour if it is not pinged
@@ -61,6 +64,9 @@ app.post('/webhook/', function (req, res) {
 	    	sendTextMessage(sender, "Welcome! I will help you ask and answer questions with anyone around the world. How does that sound? :)");
 	    }
 	    if (event.message && event.message.text) {
+	    	
+	    	total_usage++;
+	    	console.log("Total usage: " + total_usage); // Just curious to see how many events occur
 	    	
 	    	// Find the current user
 	    	for (current_user = 0; current_user < users.length; current_user++) {
@@ -169,6 +175,11 @@ function giveUserQuestion(sender, users, current_user, questions) {
 
 // Handles when a user answers a question
 function userAnswering(sender, users, current_user, questions, original_message) {
+	
+	// Just for my curiousity
+	total_questions_answered++;
+	console.log("Total Questions Answered: " + total_questions_answered);
+	
 	var index;
 	for (index = 0; index < questions.length; index++) {
 		if (questions[index].answerer == sender) {
@@ -208,12 +219,20 @@ function userWantsToAsk(sender, users, current_user) {
 
 // handles when a user asks a question
 function userAsking(sender, users, current_user, questions, original_message) {
+	
+	// Just for my curiousity
+	total_questions_asked++;
+	console.log("Total Questions Asked:" + total_questions_asked);
+	
 	var cur_date = new Date();
 	
 	if (original_message.slice(-1) != '?') {
 		original_message = original_message + "?"; 
 	}
-	
+	// If a user tries to send a link, change the question to a harmless, common one
+	if(original_message.includes(".com") || original_message.includes("www") || original_message.includes(".co")) {
+			original_message = "Heads or tails?";
+	}
 	questions.unshift({question: original_message, asker: sender, answerer: null, date: cur_date, completed: false});
 	sendTextMessage(sender, "Thanks, I will get back to you shortly.");
 	setPrompt(sender, users, current_user);
