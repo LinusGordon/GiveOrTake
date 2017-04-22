@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 const token = process.env.token;
-console.log("TOKEN = " + token);
 var http = require("http");
  
 // NOTE ABOUT THE FOLLOWING FUNCTION:
