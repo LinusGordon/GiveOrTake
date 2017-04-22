@@ -6,9 +6,9 @@ const request = require('request');
 const app = express();
 const token = process.env.token;
 var http = require("http");
-var total_usage;
-var total_questions_asked;
-var total_questions_answered;
+var total_usage = 0;
+var total_questions_asked = 0;
+var total_questions_answered = 0;
  
 // NOTE ABOUT THE FOLLOWING FUNCTION:
 // - I am using a free heroku app, which 'sleeps' every hour if it is not pinged
