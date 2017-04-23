@@ -123,9 +123,6 @@ app.post('/webhook/', function (req, res) {
 });
 
 function sendTextMessage(sender, text) {
-	if(sender == null) {
-		break sendTextMessage();
-	}
     let messageData = { text:text }
     request({
 	    url: 'https://graph.facebook.com/v2.9/me/messages',
