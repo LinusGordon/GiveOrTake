@@ -76,8 +76,7 @@ app.post('/webhook/', function (req, res) {
 	    }
 	    if (event.message && event.message.text) {
 	    	
-	    	total_usage++;
-	    	console.log("Total usage: " + total_usage); // Just curious to see how many events occur
+	    	totalMessages++;
 	    	
 	    	// Find the current user
 	    	for (current_user = 0; current_user < users.length; current_user++) {
@@ -162,7 +161,6 @@ function giveUserQuestion(sender, users, current_user, questions) {
 	// If there are no questions waiting to be answered
 	if(!questions[0]) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
-		console.log("Issue is in 1");
 		setPrompt(sender, users, current_user);
 	} else { // If there is a question 
 		var index;
@@ -173,7 +171,6 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		}
 		if (questions[index] == null || questions[index].question == null) {
 	 		sendTextMessage(sender, "No questions right now. Sorry!");
-	 		console.log("Issue is in 2");
 	 		setPrompt(sender, users, current_user);
 		} else {
 			var question = questions[index].question;
@@ -188,8 +185,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 function userAnswering(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	total_questions_answered++;
-	console.log("Total Questions Answered: " + total_questions_answered);
+	questionsAnswered++;
 	
 	var index;
 	for (index = 0; index < questions.length; index++) {
@@ -219,7 +215,6 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	var popped_question = questions.splice(index, 1); // Remove question from the array
 	popped_question[0].answerer = null;
 	questions.push(popped_question[0]);
-	console.log(popped_question[0]);
 }
 
 // Handles when a user wants to ask a question
@@ -232,8 +227,7 @@ function userWantsToAsk(sender, users, current_user) {
 function userAsking(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	total_questions_asked++;
-	console.log("Total Questions Asked:" + total_questions_asked);
+	questionsAsked++;
 	
 	var cur_date = new Date();
 	
