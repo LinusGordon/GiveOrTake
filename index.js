@@ -217,19 +217,12 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 
-	var popped_question;
-	if(index != questions.length) {
-		popped_question = questions.splice(index, 1); // Remove question from the array
-	} else {
-		popped_question = questions.splice(0, 2);
-	}
 
-	console.log(popped_question);
-
-	if(popped_question[0] != null) {
-		popped_question.answerer = null;
-		questions.push(popped_question[0]);
-	}
+	console.log("INDEX is: " + index);
+	var popped_question = questions.splice(index, 1);
+	popped_question.answerer = null;
+	questions.push(popped_question[0]);
+	
 }
 
 // Handles when a user wants to ask a question
