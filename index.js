@@ -220,7 +220,12 @@ function userAnswering(sender, users, current_user, questions, original_message)
 
 	var popped_question = questions.splice(index, 1); // Remove question from the array
 	
+	if(index == questions.length) {
+		popped_question = questions.splice(0, 1);
+	}
+
 	console.log(popped_question);
+
 	if(popped_question[0] != null) {
 		popped_question.answerer = null;
 		questions.push(popped_question[0]);
