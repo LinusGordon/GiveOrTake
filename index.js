@@ -158,7 +158,7 @@ function promptUser(sender, users, current_user) {
 //Gives the user a question to answer
 function giveUserQuestion(sender, users, current_user, questions) {
 	// If there are no questions waiting to be answered
-	if(!questions[0]) {
+	if(questions[0] == null) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
 		console.log("Issue is in 1");
 		setPrompt(sender, users, current_user);
