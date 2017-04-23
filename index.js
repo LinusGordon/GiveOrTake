@@ -176,7 +176,10 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		} else {
 			var question = questions[index].question;
 			users[current_user].state = "answering";
-			questions[index].answerer = sender;
+			// Has to do with inital question list
+			if(questions[index].asker != null) {
+				questions[index].answerer = sender;
+			}
 			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
 		}
 	}
