@@ -124,7 +124,7 @@ app.post('/webhook/', function (req, res) {
 
 function sendTextMessage(sender, text) {
 	if(sender == null) {
-		return;
+		break sendTextMessage();
 	}
     let messageData = { text:text }
     request({
