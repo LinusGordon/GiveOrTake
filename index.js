@@ -27,7 +27,7 @@ var initialQuestions = ["How are you doing today?", "What makes you an interesti
 
 if(total_usage == 0) {
 	for(var i = 0; i < initialQuestions.length; i++) {
-		questions.push([{question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true}]);
+		questions.push({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
 	}
 }
 
@@ -218,7 +218,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	promptUser(sender, users, current_user);
 
 	var popped_question = questions.splice(index, 1); // Remove question from the array
-	popped_question[0].answerer = null;
+	popped_question.answered = null;
 	questions.push(popped_question[0]);
 	console.log(popped_question[0]);
 }
