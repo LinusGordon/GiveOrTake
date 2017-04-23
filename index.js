@@ -194,7 +194,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	
 	var index;
 	for (index = 0; index < questions.length; index++) {
-		if (questions[index].answerer == sender) {
+		if (questions[index].answerer && questions[index].answerer == sender) {
 			// Without a subscription, the bot will get banned if it messages users after 24 hours
 			// of interaction. If we find a question that is 24 hours old, it must be removed.
 			var cur_date = new Date();
@@ -218,7 +218,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	promptUser(sender, users, current_user);
 
 	var popped_question = questions.splice(index, 1); // Remove question from the array
-	popped_question.answered = null;
+	popped_question.answerer = null;
 	questions.push(popped_question[0]);
 	console.log(popped_question[0]);
 }
