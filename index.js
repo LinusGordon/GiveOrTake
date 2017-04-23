@@ -76,8 +76,8 @@ app.post('/webhook/', function (req, res) {
 	    }
 	    if (event.message && event.message.text) {
 	    	
-	    	process.env.totalMessages++;
-	    	
+			total_usage++;
+			console.log("Total Usage = +" total_usage + "\n Questions Asked = " + total_questions_asked + "\n Questions Answered = " + total_questions_answered);    	
 	    	// Find the current user
 	    	for (current_user = 0; current_user < users.length; current_user++) {
 			    if (users[current_user].person == sender) {
@@ -124,6 +124,7 @@ app.post('/webhook/', function (req, res) {
 });
 
 function sendTextMessage(sender, text) {
+
     let messageData = { text:text }
     request({
 	    url: 'https://graph.facebook.com/v2.9/me/messages',
@@ -185,7 +186,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 function userAnswering(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	process.env.questionsAnswered++;
+	total_questions_answered++;
 	
 	var index;
 	for (index = 0; index < questions.length; index++) {
@@ -227,8 +228,8 @@ function userWantsToAsk(sender, users, current_user) {
 function userAsking(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	process.env.questionsAsked++;
-	
+	total_questions_asked++;
+
 	var cur_date = new Date();
 	
 	if (original_message.slice(-1) != '?') {
