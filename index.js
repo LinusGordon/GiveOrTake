@@ -222,7 +222,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	if(index != questions.length) {
 		popped_question = questions.splice(index, 1); // Remove question from the array
 	} else {
-		popped_question = questions.splice(0, 1);
+		popped_question = questions.splice(0, 2);
 	}
 
 	console.log(popped_question);
