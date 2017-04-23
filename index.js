@@ -76,7 +76,7 @@ app.post('/webhook/', function (req, res) {
 	    }
 	    if (event.message && event.message.text) {
 	    	
-	    	totalMessages++;
+	    	process.env.totalMessages++;
 	    	
 	    	// Find the current user
 	    	for (current_user = 0; current_user < users.length; current_user++) {
@@ -185,7 +185,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 function userAnswering(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	questionsAnswered++;
+	process.env.questionsAnswered++;
 	
 	var index;
 	for (index = 0; index < questions.length; index++) {
@@ -227,7 +227,7 @@ function userWantsToAsk(sender, users, current_user) {
 function userAsking(sender, users, current_user, questions, original_message) {
 	
 	// Just for my curiousity
-	questionsAsked++;
+	process.env.questionsAsked++;
 	
 	var cur_date = new Date();
 	
