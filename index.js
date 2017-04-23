@@ -1,3 +1,5 @@
+
+
 'use strict'
 
 const express = require('express');
@@ -18,19 +20,19 @@ var total_questions_answered = 0;
 //   change to a blacklisted one
 setInterval(function() {
     http.get("http://peaceful-caverns-10612.herokuapp.com");
-}, 900000); // 15 minutes
+}, 1800000); // 30 minutes
 
 var questions = [];
 var users = [];
 
+
 var initialQuestions = ["How are you doing today?", "What makes you an interesting person?", "What is your current goal?", "What is your favorite type of cookie?", "What is your favorite TV show?", "Funniest thing that happened to you today?", "Where are you?", "What happens to us when we die?", "How old are you?", "Pancakes or waffles?", "What time is it for you?", "What should I eat for dinner?", "What is your middle name?", "Favorite band or musician?", "What is your favorite color?", "Funniest thing that happened to you this week?", "Best childhood memory?"];
 
 if(total_usage == 0) {
-	for(var i = 0; i < initialQuestions.length; i++) {
+ 	for(var i = 0; i < initialQuestions.length; i++) {
 		userAsking(null, users, null, questions, initialQuestions[i]);
-	}
+ 	}
 }
-
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -158,7 +160,7 @@ function promptUser(sender, users, current_user) {
 //Gives the user a question to answer
 function giveUserQuestion(sender, users, current_user, questions) {
 	// If there are no questions waiting to be answered
-	if(questions[0] == null) {
+	if(!questions[0]) {
 		sendTextMessage(sender, "No questions right now. Sorry!");
 		console.log("Issue is in 1");
 		setPrompt(sender, users, current_user);
@@ -176,10 +178,7 @@ function giveUserQuestion(sender, users, current_user, questions) {
 		} else {
 			var question = questions[index].question;
 			users[current_user].state = "answering";
-			// Has to do with inital question list
-			if(questions[index].asker != null) {
-				questions[index].answerer = sender;
-			}
+			questions[index].answerer = sender;
 			sendTextMessage(sender, "Please answer the following question: \n\n" + question);
 		}
 	}
@@ -194,7 +193,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	
 	var index;
 	for (index = 0; index < questions.length; index++) {
-		if (questions[index] && questions[index].answerer == sender) {
+		if (questions[index].answerer == sender) {
 			// Without a subscription, the bot will get banned if it messages users after 24 hours
 			// of interaction. If we find a question that is 24 hours old, it must be removed.
 			var cur_date = new Date();
@@ -217,12 +216,10 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 
-	console.log("QUESTIONS LENGHT = " + questions.length);
-	console.log("INDEX is: " + index);
-	var popped_question = questions.splice(index, 1);
-	popped_question.answerer = null;
+	var popped_question = questions.splice(index, 1); // Remove question from the array
+	popped_question[0].answerer = null;
 	questions.push(popped_question[0]);
-	
+	console.log(popped_question[0]);
 }
 
 // Handles when a user wants to ask a question
@@ -253,9 +250,6 @@ function userAsking(sender, users, current_user, questions, original_message) {
 }
 
 function setPrompt(sender, users, current_user) {
-	if(sender == null) {
-		return;
-	}
 	for (var i = 0; i < users.length; i++) {
 		if (users[i].person == sender) {
 			users.splice(i, 1);
