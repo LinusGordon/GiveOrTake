@@ -76,8 +76,8 @@ app.post('/webhook/', function (req, res) {
 	    }
 	    if (event.message && event.message.text) {
 	    	
-			total_usage++;
-			console.log("Total Usage = +" total_usage + "\n Questions Asked = " + total_questions_asked + "\n Questions Answered = " + total_questions_answered);    	
+			usageInfo();
+	    	  	
 	    	// Find the current user
 	    	for (current_user = 0; current_user < users.length; current_user++) {
 			    if (users[current_user].person == sender) {
@@ -251,4 +251,14 @@ function setPrompt(sender, users, current_user) {
 		}
 	}
 	users.push({person: sender, answerer: null, state: "prompted"});
+}
+
+// After 1000 inteactions, log some data 
+function usageInfo() {
+	total_usage++;
+	if(total_usage % 1000 == 0) {
+		console.log("Total Usage = +" + total_usage);
+		console.log("Questions Asked = " + total_questions_asked);
+		console.log("Questions Answered = " + total_questions_answered);  
+	}
 }
