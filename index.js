@@ -18,10 +18,19 @@ var total_questions_answered = 0;
 //   change to a blacklisted one
 setInterval(function() {
     http.get("http://peaceful-caverns-10612.herokuapp.com");
-}, 1800000); // 30 minutes
+}, 900000); // 15 minutes
 
 var questions = [];
 var users = [];
+
+var initialQuestions["How are you doing today?", "What makes you an interesting person", "What is your current goal?", "What is your favorite type of cookie", "What is your favorite TV show", "Funniest thing that happened to you today", "Where are you", "What happens to us when we die", "How old are you", "Pancakes or waffles", "What time is it for you", "What should I eat for dinner", "What is your middle name", "Favorite band or musician", "What is your favorite color"];
+
+if(total_usage == 0) {
+	for(var k = 0; k < initialQuestions.length; k++) {
+		questions.push({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
+	}
+}
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -114,6 +123,9 @@ app.post('/webhook/', function (req, res) {
 });
 
 function sendTextMessage(sender, text) {
+	if(sender == null) {
+		return;
+	}
     let messageData = { text:text }
     request({
 	    url: 'https://graph.facebook.com/v2.9/me/messages',
