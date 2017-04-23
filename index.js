@@ -27,7 +27,7 @@ var initialQuestions = ["How are you doing today?", "What makes you an interesti
 
 if(total_usage == 0) {
 	for(var i = 0; i < initialQuestions.length; i++) {
-		questions.push({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
+		questions.unshift({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
 		console.log(initialQuestions[i]);
 	}
 }
