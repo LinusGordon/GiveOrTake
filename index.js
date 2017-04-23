@@ -217,7 +217,7 @@ function userAnswering(sender, users, current_user, questions, original_message)
 	sendTextMessage(sender, "I just sent your answer to the asker. Thanks!");
 	promptUser(sender, users, current_user);
 
-
+	console.log("QUESTIONS LENGHT = " + questions.length);
 	console.log("INDEX is: " + index);
 	var popped_question = questions.splice(index, 1);
 	popped_question.answerer = null;
