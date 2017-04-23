@@ -27,8 +27,7 @@ var initialQuestions = ["How are you doing today?", "What makes you an interesti
 
 if(total_usage == 0) {
 	for(var i = 0; i < initialQuestions.length; i++) {
-		questions.unshift({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
-		console.log(initialQuestions[i]);
+		userAsking(null, users, null, questions, initialQuestions[i]);
 	}
 }
 
@@ -261,6 +260,9 @@ function userAsking(sender, users, current_user, questions, original_message) {
 }
 
 function setPrompt(sender, users, current_user) {
+	if(sender == null) {
+		return;
+	}
 	for (var i = 0; i < users.length; i++) {
 		if (users[i].person == sender) {
 			users.splice(i, 1);
