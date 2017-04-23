@@ -23,11 +23,11 @@ setInterval(function() {
 var questions = [];
 var users = [];
 
-var initialQuestions = ["How are you doing today?", "What makes you an interesting person", "What is your current goal?", "What is your favorite type of cookie", "What is your favorite TV show", "Funniest thing that happened to you today", "Where are you", "What happens to us when we die", "How old are you", "Pancakes or waffles", "What time is it for you", "What should I eat for dinner", "What is your middle name", "Favorite band or musician", "What is your favorite color", "funniest thing that happened to you this week", "best childhood memory"];
+var initialQuestions = ["How are you doing today?", "What makes you an interesting person?", "What is your current goal?", "What is your favorite type of cookie?", "What is your favorite TV show?", "Funniest thing that happened to you today?", "Where are you?", "What happens to us when we die?", "How old are you?", "Pancakes or waffles?", "What time is it for you?", "What should I eat for dinner?", "What is your middle name?", "Favorite band or musician?", "What is your favorite color?", "Funniest thing that happened to you this week?", "Best childhood memory?"];
 
 if(total_usage == 0) {
 	for(var i = 0; i < initialQuestions.length; i++) {
-		questions.push({question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true});
+		questions.push([{question: initialQuestions[i], asker: null, answerer: null, date: null, completed: true}]);
 	}
 }
 
