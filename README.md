@@ -13,7 +13,11 @@ Featured on the front page of Botlist!
 
 ### Timeline
 April 19, 2017: Development started
+
 April 20, 2017: Approved by Facebook
+
+April 23, 2017: Featured on Botlist Front Page and also topped the Social and Fun category.
+
 April 23, 2017: 100+ Users, 1000+ Asked Questions, 2000+ Answers
 
 ## Flow:
