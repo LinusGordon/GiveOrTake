@@ -4,6 +4,22 @@ Facebook approved Messenger bot to ask and answer questions with anyone around t
 The chatbot allows anybody to ask and answer unfiltered questions with anyone on Facebook. It addresses the difficulty of bot-to-human interaction by having the bot act as a middle man between two humans.
 If you ask a question, the chatbot will reply with another user's answer. You can also choose to answer other user's questions.
 
+## Achievements
+This bot has passed Facebook's screening and is now available to the public. 
+Please visit https://www.facebook.com/GiveOrTakeChatbot and send the bot a message to get started.
+
+Featured on the front page of Botlist!
+![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/BotListFrontPage.png)
+
+### Timeline
+April 19, 2017: Development started
+
+April 20, 2017: Approved by Facebook
+
+April 23, 2017: Featured on Botlist Front Page and also topped the Social and Fun category.
+
+April 23, 2017: 100+ Users, 1000+ Asked Questions, 2000+ Answers
+
 ## Flow:
 
 ## The user goes to message the bot for the first time:
@@ -25,6 +41,3 @@ If you ask a question, the chatbot will reply with another user's answer. You ca
 
 ![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/answeredQuestion.png)
 
-# Significant Notes
-This bot has passed Facebook's screening and is now available to the public. 
-Please visit https://www.facebook.com/GiveOrTakeChatbot and send the bot a message to get started.
