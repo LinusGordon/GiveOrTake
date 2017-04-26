@@ -9,7 +9,8 @@ This bot has passed Facebook's screening and is now available to the public.
 Please visit https://www.facebook.com/GiveOrTakeChatbot and send the bot a message to get started.
 
 Featured on the front page of Botlist!
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/BotListFrontPage.png)
+
+<img src="https://github.com/LinusGordon/GiveOrTake/blob/master/BotListFrontPage.png" width="2000">
 
 ### Timeline
 April 19, 2017: Development started
@@ -26,20 +27,15 @@ April 25, 2017: 200+ Users
 
 ## The user goes to message the bot for the first time:
 
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeScreen.png)
+<img src="https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeScreen.png" width="300">
 
 ## The user hits get started, and answers the bot's first question:
+<img src="https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeMessage.png" width="300">
 
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/welcomeMessage.png)
-
-## This user decides to ask a question first:
-
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/askedQuestion.png)
-
-## Soon after, another user answers the question. The original user is notified of his question and answer:
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/questionAnswered.png)
+## This user decides to ask a question and quickly after receives a response:
+<img src="https://github.com/LinusGordon/GiveOrTake/blob/master/askedQuestion.png" width="300">
 
 ## Then, the user decides to answer a question:
 
-![alt tag](https://github.com/LinusGordon/GiveOrTake/blob/master/answeredQuestion.png)
+<img src="https://github.com/LinusGordon/GiveOrTake/blob/master/answeredQuestion.png" width="300">
 
