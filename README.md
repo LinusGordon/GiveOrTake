@@ -23,6 +23,8 @@ April 23, 2017: 100+ Users
 
 April 25, 2017: 200+ Users
 
+May 4th, 2017: 300+ Users
+
 ## Flow:
 
 ## The user goes to message the bot for the first time:
